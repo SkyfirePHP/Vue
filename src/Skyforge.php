@@ -63,6 +63,27 @@ class Skyforge
         return $this;
     }
 
+    public function ORDER_BY($smt)
+    {
+        $this->query .= ' ORDER BY '.trim($smt);
+
+        return $this;
+    }
+
+    public function ASC()
+    {
+        $this->query .= ' ASC';
+
+        return $this;
+    }
+
+    public function DESC()
+    {
+        $this->query .= ' DESC';
+
+        return $this;
+    }
+
     private static function cleanSmt($smt)
     {
         return '`'.str_replace('.', '`.`', str_replace('`', '', trim($smt))).'`';

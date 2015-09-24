@@ -14,8 +14,9 @@ $conn = array
 
 $SQL   = new Skyforge($conn);
 
-$query = $SQL->SELECT('*')
+$query = $SQL->SELECT('r.rid, r.name')
              ->FROM('test')
-             ->WHERE('id', '>', 0);
+             ->WHERE('id', '>', 0)
+             ->ORDER_BY('r.weight')->ASC();
 
 echo $query->exe();
