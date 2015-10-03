@@ -27,9 +27,38 @@ class Skyforge
         return trim($this->query).';';
     }
 
+    public function SHOW_FULL_TABLES_FROM($database)
+    {
+        $this->query .= ' SHOW FULL TABLES FROM '.self::cleanSmt(trim($database));
+
+        return $this;
+    }
+
     public function SELECT($smt)
     {
-        $this->query .= ' SELECT '.$smt;
+        if (is_array($smt) && count($smt) > 0)
+        {
+            $this->query .= ' SELECT ';
+
+            $clean_smt_array = array();
+            foreach ($smt as $elements)
+            {
+                $clean_smt_array[] = self::cleanSmt(trim($elements));
+            }
+            $this->query .= implode(', ', $clean_smt_array);
+        }
+        else
+        {
+            $this->query .= ' SELECT '.$smt;
+        }
+
+        return $this;
+    }
+
+    public function SELECT_COUNT($smt)
+    {
+
+        $this->query .= ' SELECT COUNT('.$smt.')';
 
         return $this;
     }
