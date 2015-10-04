@@ -10,6 +10,10 @@ class Skyforge
     private $connection;
     private $query = '';
 
+    // SET variables
+    const SQL_MODE  = 'SQL_MODE';
+    const time_zone = 'time_zone';
+
     public function __construct($credentials)
     {
         try
@@ -27,13 +31,29 @@ class Skyforge
         return trim($this->query).';';
     }
 
+    // start statement
     public function SHOW_FULL_TABLES_FROM($database)
     {
-        $this->query .= ' SHOW FULL TABLES FROM '.self::cleanSmt(trim($database));
+        $this->query = 'SHOW FULL TABLES FROM '.self::cleanSmt(trim($database));
 
         return $this;
     }
 
+    // start statement
+    public function SET($variable, $value)
+    {
+        $this->query = 'SET '.$variable.'  = '.$value;
+    }
+
+    // start statement
+    public function GRANT_ALL_PRIVILEGES()
+    {
+        $this->query = 'GRANT ALL PRIVILEGES ON';
+
+        return $this;
+    }
+
+    // possbile start statement
     public function SELECT($smt)
     {
         if (is_array($smt) && count($smt) > 0)
@@ -55,6 +75,7 @@ class Skyforge
         return $this;
     }
 
+    // possbile start statement
     public function SELECT_COUNT($smt)
     {
 
@@ -109,6 +130,21 @@ class Skyforge
     public function DESC()
     {
         $this->query .= ' DESC';
+
+        return $this;
+    }
+
+    public function ON($value)
+    {
+        $value =  str_replace('_' , '\_', $value);
+        $this->query .= ' ON '.self::cleanSmt(trim($value));
+
+        return $this;
+    }
+
+    public function TO($value)
+    {
+        $this->query .= ' TO '.trim($value);
 
         return $this;
     }
