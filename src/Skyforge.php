@@ -1,18 +1,82 @@
 <?php
 
-class Skyforge
+abstract class constants
+{
+    // SET variables
+    const SQL_MODE  = 'SQL_MODE';
+    const time_zone = 'time_zone';
+}
+
+abstract class method extends constants
+{
+    protected $query = '';
+
+    protected static function cleanSmt($smt)
+    {
+        return '`'.str_replace('.', '`.`', str_replace('`', '', trim($smt))).'`';
+    }
+}
+
+class ALTER_DATABASE extends method
+{
+    // start statement
+    public function ALTER_TABLE($database_name)
+    {
+        $this->query = 'ALTER DATABASEE '.self::cleanSmt($database_name);
+    }
+
+    public function CHARACTER_SET($character_set)
+    {
+        $this->query .= ' CHARACTER SET = '.$character_set;
+
+        return $this;
+    }
+
+    public function COLLATE($character_set)
+    {
+        $this->query .= ' COLLATE = '.$character_set;
+
+        return $this;
+    }
+}
+
+class ALTER_TABLE extends ALTER_DATABASE
+{
+    // start statement
+    public function ALTER_TABLE($table_name)
+    {
+        $this->query = 'ALTER TABLE '.self::cleanSmt($table_name);
+    }
+
+    public function CONVERT_TO_CHARACTER_SET($character_set)
+    {
+        $this->query .= ' CONVERT TO CHARACTER SET '.$character_set;
+
+        return $this;
+    }
+
+    public function DEFAULT_CHARACTER_SET($character_set)
+    {
+        $this->query .= ' DEFAULT CHARACTER SET '.$character_set;
+
+        return $this;
+    }
+
+    public function COLLATE($character_set)
+    {
+        $this->query = ' COLLATE '.$character_set;
+
+        return $this;
+    }
+}
+
+final class Skyforge extends ALTER_TABLE
 {
     private $host;
     private $name;
     private $user;
     private $password;
-
     private $connection;
-    private $query = '';
-
-    // SET variables
-    const SQL_MODE  = 'SQL_MODE';
-    const time_zone = 'time_zone';
 
     public function __construct($credentials)
     {
@@ -147,11 +211,6 @@ class Skyforge
         $this->query .= ' TO '.trim($value);
 
         return $this;
-    }
-
-    private static function cleanSmt($smt)
-    {
-        return '`'.str_replace('.', '`.`', str_replace('`', '', trim($smt))).'`';
     }
 
 }
