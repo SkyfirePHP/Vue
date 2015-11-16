@@ -70,7 +70,7 @@ class ALTER_TABLE extends ALTER_DATABASE
     }
 }
 
-final class Skyforge extends ALTER_TABLE
+final class Vue extends ALTER_TABLE
 {
     private $host;
     private $name;
