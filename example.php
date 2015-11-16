@@ -2,7 +2,7 @@
 
 // autoload here
 
-require 'src/Skyforge.php';
+require 'src/VueSQL.php';
 
 $conn = array
 (
@@ -12,7 +12,7 @@ $conn = array
     'password' => ''
 );
 
-$SQL   = new Skyforge($conn);
+$SQL   = new VueSQL($conn);
 
 $query = $SQL->SELECT('r.rid, r.name')
              ->FROM('test')
