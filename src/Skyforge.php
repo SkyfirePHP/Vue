@@ -148,6 +148,13 @@ final class Skyforge extends ALTER_TABLE
         return $this;
     }
 
+    public function SELECT_NOW()
+    {
+        $this->query = 'SELECT NOW()';
+
+        return $this;
+    }
+
     public function FROM($smt)
     {
         $this->query .= ' FROM '.trim($smt);
@@ -173,6 +180,13 @@ final class Skyforge extends ALTER_TABLE
                 $this->query .= ' WHERE '.trim($smt);
             }
         }
+
+        return $this;
+    }
+
+    public function LIKE($smt)
+    {
+        $this->query .= ' LIKE'.trim($smt);
 
         return $this;
     }
