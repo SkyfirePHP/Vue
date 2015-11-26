@@ -117,6 +117,11 @@ final class VueSQL extends ALTER_TABLE
         return $this;
     }
 
+    public function SELECT_SQL_CALC_FOUND_ROWS($smt)
+    {
+        return $this->SELECT($smt);
+    }
+
     // possbile start statement
     public function SELECT($smt)
     {
